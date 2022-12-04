@@ -10,7 +10,7 @@ pipeline {
         pip freeze > requirements.txt
         pip install -r requirements.txt
         export FLASK_APP=application
-        flask run &
+        flask run --host=0.0.0.0 &
         '''
      }
    }
