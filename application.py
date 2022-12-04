@@ -29,13 +29,13 @@ def after_request(response):
 application.jinja_env.filters["usd"] = usd
 
 # Configure Redis for storing the session data locally on the server-side
-application.secret_key = 'BAD_SECRET_KEY'
-application.config['SESSION_TYPE'] = 'redis'
-application.config['SESSION_PERMANENT'] = False
-application.config['SESSION_USE_SIGNER'] = True
-application.config['SESSION_REDIS'] = redis.from_url('redis://localhost:6379')
+application.secret_key = 'TESTKEY123!'
+#application.config['SESSION_TYPE'] = 'redis'
+#application.config['SESSION_PERMANENT'] = False
+#application.config['SESSION_USE_SIGNER'] = True
+#application.config['SESSION_REDIS'] = redis.from_url('redis://localhost:6379')
 # Create and initialize the Flask-Session object AFTER `app` has been configured
-server_session = Session(application)
+#server_session = Session(application)
 
 # Configure Flask to use local SQLite3 database with SQLAlchemy
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'finances.db')
@@ -115,6 +115,8 @@ users_schema = UsersSchema
 portfolio_schema = PortfolioSchema(many=True)
 bought_schema = BoughtSchema(many=True)
 sold_schema = SoldSchema(many=True)
+db.create_all()
+
 
 # Make sure API key is set
 os.environ.get("API_KEY")
