@@ -4,7 +4,6 @@ pipeline {
     stage ('Build') {
       steps {
         sh '''#!/bin/bash
-        sudo apt install python3.10-venv
         python3 -m venv financevenv
         source financevenv/bin/activate
         pip install pip --upgrade
