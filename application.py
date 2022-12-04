@@ -11,7 +11,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import errorPage, login_required, lookup, usd
 
 # Configure application
-application = app = Flask(__name__)
+application = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Ensure templates are auto-reloaded
