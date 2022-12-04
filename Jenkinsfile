@@ -7,10 +7,9 @@ pipeline {
         python3 -m venv test1
         source test1/bin/activate
         pip install pip --upgrade
-        pip freeze > requirements.txt
-        pip install -r requirements.txt
+        pipenv install
         export FLASK_APP=application
-        flask run --host=0.0.0.0 &
+        flask run &
         '''
      }
    }
