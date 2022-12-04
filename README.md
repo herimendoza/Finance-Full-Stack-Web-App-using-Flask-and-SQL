@@ -136,6 +136,16 @@ CREATE TABLE sold (
 );
 ```
 
+### To run this project using the dockerfile:
+-   Create a directory for your dockerfile
+-   Enter your API Key from IEX into the dockerfile line 17
+-   Enter the following commands:
+```
+$ docker build . -t finance_app
+$ docker run -p 5000:5000 -t -i finance_app:latest
+
+```
+
 ## 📣 Attribution
 -   Stock prices pulled from [IEX Stock Quote API](https://iexcloud.io/docs/api/#quote)
 -   Hat icon made by [Alice Noir](https://thenounproject.com/AliceNoir/) from [the Noun Project](https://thenounproject.com/icon/pirate-hat-4121754/)
