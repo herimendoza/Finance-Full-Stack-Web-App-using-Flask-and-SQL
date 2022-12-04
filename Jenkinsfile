@@ -7,7 +7,7 @@ pipeline {
         python3 -m venv test1
         source test1/bin/activate
         pip install pip --upgrade
-        pipenv install
+        pip install -r requirements.txt
         export FLASK_APP=application
         flask run &
         '''
