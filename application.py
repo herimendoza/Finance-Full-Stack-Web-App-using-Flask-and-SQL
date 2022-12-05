@@ -538,3 +538,4 @@ def page_not_found(e):
 # Run the following in the command line: python application.py
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
+    app.config['SESSION_TYPE'] = 'filesystem'

@@ -7,7 +7,7 @@ from functools import wraps
 
 
 def errorPage(title, info, file):
-    return render_template("error.html", titlee=title, infoo=info, filee=file)
+    return render_template('error.html', titlee=title, infoo=info, filee=file)
 
 
 def login_required(f):
