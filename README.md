@@ -141,7 +141,7 @@ CREATE TABLE sold (
 -   Enter your API Key from IEX into the dockerfile line 17
 -   Enter the following commands:
 ```
-$ docker build . -t finance_app
+$ docker build . -t finance_app --no-cache
 $ docker run -p 5000:5000 -t -i finance_app:latest
 
 ```
