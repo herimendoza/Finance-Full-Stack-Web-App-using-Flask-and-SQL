@@ -28,6 +28,10 @@ def after_request(response):
 # Custom filter
 application.jinja_env.filters["usd"] = usd
 
+
+def errorPage(blockTitle, errorMessage, imageSource):
+    return render_template("error.html", title = (blockTitle), info = (errorMessage), file = (imageSource))
+    
 # Configure Redis for storing the session data locally on the server-side
 application.secret_key = 'TESTKEY123!'
 #application.config['SESSION_TYPE'] = 'redis'
