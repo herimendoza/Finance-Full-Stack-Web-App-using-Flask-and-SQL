@@ -6,6 +6,10 @@
 
 {% block main %}
     <!-- Demonstrating different methods of displaying data -->
-    <div>{{ data.name }}</div>
-    <div>{{ data.price }}</div>
+    <div class="alert alert-success" role="alert">
+        <h1 class="alert-heading">Success</h1>
+        <p>Your quote for share {{ data.name }} is ${{ data.price }} per stock.</p>
+        <hr>
+        <p class="mb-0"><a href="/quote" class="btn btn-light">Quote</a> more stocks or return to the <a href="/home" class="btn btn-light">Home</a> page</p>
+      </div>
 {% endblock %}
