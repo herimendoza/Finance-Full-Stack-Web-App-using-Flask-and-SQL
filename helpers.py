@@ -6,8 +6,8 @@ from flask import redirect, render_template, request, session
 from functools import wraps
 
 
-def errorPage(blockTitle, errorMessage, imageSource):
-    return render_template("error.html", title = (blockTitle), info = (errorMessage), file = (imageSource))
+def errorPage(title, info, file):
+    return render_template('error.html', titlee=title, infoo=info, filee=file)
 
 
 def login_required(f):
