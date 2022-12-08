@@ -375,7 +375,7 @@ def quote():
         return render_template("quote.html")
     else:
         symbol = request.form.get("symbol")
-        data = lookup(symbol)
+        data = lookup(symbol) # f(x) to get stock quote
         # User error handling: stop empty symbol and shares fields, stop invalid symbols, and negative share numbers
         if not symbol:
             return errorPage(title="No Data", info = "Please enter a stock symbol, i.e. AMZN", file = "no-data.svg")
