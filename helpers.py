@@ -26,11 +26,19 @@ def login_required(f):
 
 def lookup(symbol):
     """Look up quote for symbol."""
-
+    apiSymbol = f"{urllib.parse.quote_plus(symbol)}"
     # Contact API
     try:
         api_key = os.environ.get("API_KEY")
-        response = requests.get(f"https://cloud.iexapis.com/stable/stock/{urllib.parse.quote_plus(symbol)}/quote?token={api_key}")
+        url = "https://twelve-data1.p.rapidapi.com/price"
+        #apiSymbol = f"{urllib.parse.quote_plus(symbol)}"
+        querystring = {"symbol":apiSymbol,"format":"json","outputsize":"30"}
+        headers = {
+            "X-RapidAPI-Key": api_key,
+            "X-RapidAPI-Host": "twelve-data1.p.rapidapi.com"
+        }
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
         response.raise_for_status()
     except requests.RequestException:
         return None
@@ -39,9 +47,8 @@ def lookup(symbol):
     try:
         quote = response.json()
         return {
-            "name": quote["companyName"],
-            "price": float(quote["latestPrice"]),
-            "symbol": quote["symbol"]
+            "price": float(quote["price"]),
+            "symbol": apiSymbol
         }
     except (KeyError, TypeError, ValueError):
         return None
