@@ -6,8 +6,9 @@ resource "aws_lb_target_group" "url-app" {
   vpc_id      = aws_vpc.app_vpc.id
 
   health_check {
-    enabled = true
-    path    = "/health"
+    enabled  = true
+    path     = "/health"
+    interval = 300
   }
 
   depends_on = [aws_alb.url_app]
