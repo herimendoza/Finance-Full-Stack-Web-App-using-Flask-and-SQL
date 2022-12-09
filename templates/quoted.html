@@ -40,10 +40,23 @@
           options: {
             responsive: true,
             plugins: {
-            legend: {
-                display: false // removes legend from the graph
+                legend: {
+                    display: false // removes legend from the graph
+                }
+            },
+            scales: {
+                y: { 
+                    title: { 
+                        display: true, 
+                        text: 'Past Stock Prices ($)',
+                        color: 'rgb(53, 130, 219)',
+                        font: {
+                            size: 18
+                        } 
+                    }
                 }
             }
+
           }
         });
       </script>
