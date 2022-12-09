@@ -30,25 +30,41 @@ def lookup(symbol):
     # Contact API
     try:
         api_key = os.environ.get("API_KEY")
-        url = "https://twelve-data1.p.rapidapi.com/price"
-        #apiSymbol = f"{urllib.parse.quote_plus(symbol)}"
-        querystring = {"symbol":apiSymbol,"format":"json","outputsize":"30"}
+
+        url1 = "https://twelve-data1.p.rapidapi.com/price"
+        url2 = "https://twelve-data1.p.rapidapi.com/time_series"
+        
+        querystring1 = {"symbol":apiSymbol,"format":"json","outputsize":"30"}
+        querystring2 = {"symbol":apiSymbol,"interval":"1day","outputsize":"30","format":"json"}
+
         headers = {
             "X-RapidAPI-Key": api_key,
             "X-RapidAPI-Host": "twelve-data1.p.rapidapi.com"
         }
-        response = requests.request("GET", url, headers=headers, params=querystring)
+        response1 = requests.request("GET", url1, headers=headers, params=querystring1)
+        response2 = requests.request("GET", url2, headers=headers, params=querystring2)
 
-        response.raise_for_status()
+        response1.raise_for_status()
+        response2.raise_for_status()
     except requests.RequestException:
         return None
 
     # Parse response
     try:
-        quote = response.json()
+        quote = response1.json()
+        dataPoints = response2.json()
+        stockDate = []
+        stockPrice = []
+
+        for data in dataPoints['values']:
+            stockDate.append(data['datetime'].split("-", 1)[-1])
+            stockPrice.append(float(data['close'])) 
+
         return {
             "price": float(quote["price"]),
-            "symbol": apiSymbol
+            "symbol": apiSymbol,
+            "date": stockDate,
+            "oldPrice": stockPrice
         }
     except (KeyError, TypeError, ValueError):
         return None
