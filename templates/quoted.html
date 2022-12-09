@@ -8,8 +8,57 @@
     <!-- Demonstrating different methods of displaying data -->
     <div class="alert alert-success" role="alert">
         <h1 class="alert-heading">Success</h1>
-        <p>Your quote for share {{ data.name }} is ${{ data.price }} per stock.</p>
+        <p>Your quote for share <span class="font-weight-bold" style="text-transform:uppercase">{{ data.symbol }}</span> is ${{ data.price }} per stock.</p>
         <hr>
         <p class="mb-0"><a href="/quote" class="btn btn-light">Quote</a> more stocks or return to the <a href="/home" class="btn btn-light">Home</a> page</p>
+      </div>
+      <style>
+        #chart-wrapper {
+          display: inline-block;
+          position: relative;
+          width: 50%;
+          height: 20%
+        }
+      </style>
+    <div id="chart-wrapper">
+        <canvas id="myChart"></canvas>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+      
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: {{ data.date | safe }},
+            datasets: [{
+              label: "Price",
+              data: {{ data.oldPrice | safe  }}
+            //   borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false // removes legend from the graph
+                }
+            },
+            scales: {
+                y: { 
+                    title: { 
+                        display: true, 
+                        text: 'Past Stock Prices ($)',
+                        color: 'rgb(53, 130, 219)',
+                        font: {
+                            size: 18
+                        } 
+                    }
+                }
+            }
+
+          }
+        });
+      </script>
       </div>
 {% endblock %}
