@@ -59,7 +59,10 @@ def lookup(symbol):
         for data in dataPoints['values']:
             stockDate.append(data['datetime'].split("-", 1)[-1])
             stockPrice.append(float(data['close'])) 
-
+        
+        stockDate.reverse()
+        stockPrice.reverse()
+        
         return {
             "price": float(quote["price"]),
             "symbol": apiSymbol,
