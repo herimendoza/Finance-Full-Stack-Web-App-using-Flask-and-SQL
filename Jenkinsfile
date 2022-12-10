@@ -27,7 +27,7 @@ pipeline {
          }
       }
   }  
-     stage('Plan') {
+     stage('Staging Plan') {
       when {
                 branch 'staging'
             }     
@@ -40,7 +40,7 @@ pipeline {
          }
     }
    }
-     stage('Apply') {
+     stage('Staging Apply') {
       when {
                 branch 'staging'
             }
