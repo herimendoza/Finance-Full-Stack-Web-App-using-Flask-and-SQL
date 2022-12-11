@@ -14,7 +14,8 @@ pipeline {
      }
    }
 
-    stage ('Staging init') { 
+    stage ('Staging init') {
+      agent{label 'terrage'}
       when {
                 branch 'brayan'
             }
@@ -28,6 +29,7 @@ pipeline {
       }
   }  
      stage('Staging Plan') {
+      agent{label 'terrage'}
       when {
                 branch 'brayan'
             }     
@@ -41,6 +43,7 @@ pipeline {
     }
    }
      stage('Staging Apply') {
+      agent{label 'terrage'}
       when {
                 branch 'brayan'
             }
@@ -56,16 +59,18 @@ pipeline {
       }
 
      stage('Variables Add') {
+       agent{label 'terrage'}
        when {
                  branch 'brayan'
        }
        steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
-                        string(credentialsId: 'API_KEY'), variable: 'api_key', 
+                        string(credentialsId: 'API_KEY'), variable: 'API_KEY', 
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
                         dir('Staging_Terra') {
 
                               sh '''#!/bin/bash
+                              
                               echo "API_KEY=${API_KEY}" >> .env
                               USER=$(terraform output -raw mysql_username) >> .env
                               PASSWORD=$(terraform output -raw mysql_password) >> .env
@@ -80,6 +85,7 @@ pipeline {
      }      
    
      stage('Variables Apply') {
+      agent{label 'terrage'}
       when {
                 branch 'brayan'
             }
@@ -88,7 +94,7 @@ pipeline {
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
                             dir('Staging_Terra') {
 
-                              sh 'terraform apply -auto-approve' 
+                              sh 'terraform apply -auto-approve -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key"' 
                             }
          }
        }
