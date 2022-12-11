@@ -82,6 +82,7 @@ pipeline {
                             }         
       
        }
+      }
      }      
    
      stage('Variables Apply') {
