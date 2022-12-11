@@ -45,6 +45,7 @@ os.environ.get('DB_URI')
 
 # Configure Flask to use local SQLite3 database with SQLAlchemy
 application.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
+#application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'finances.db')
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(application)
