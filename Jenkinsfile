@@ -16,7 +16,7 @@ pipeline {
 
     stage ('Staging init') { 
       when {
-                branch 'staging'
+                branch 'brayan'
             }
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
@@ -29,7 +29,7 @@ pipeline {
   }  
      stage('Staging Plan') {
       when {
-                branch 'staging'
+                branch 'brayan'
             }     
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
@@ -42,7 +42,7 @@ pipeline {
    }
      stage('Staging Apply') {
       when {
-                branch 'staging'
+                branch 'brayan'
             }
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
@@ -55,6 +55,44 @@ pipeline {
        }
       }
 
+     stage('Variables Add') {
+       when {
+                 branch 'brayan'
+       }
+       steps {
+        withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
+                        string(credentialsId: 'API_KEY'), variable: 'api_key', 
+                        string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
+                        dir('Staging_Terra') {
+
+                              sh '''#!/bin/bash
+                              echo "API_KEY=${API_KEY}" >> .env
+                              USER=$(terraform output -raw mysql_username) >> .env
+                              PASSWORD=$(terraform output -raw mysql_password) >> .env
+                              ENDPOINT=$(terraform output -raw mysql_host) >> .env
+                              DATABASE=$(terraform output -raw mysql_database_name) >> .env
+                              DB_URI='mysql://$USER:$PASSWORD@$ENDPOINT/$DATABASE' >> .env
+                              echo $DB_URI > file.txt
+                              '''
+                            }         
+      
+       }
+     }      
+   
+     stage('Variables Apply') {
+      when {
+                branch 'brayan'
+            }
+      steps {
+        withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
+                        string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
+                            dir('Staging_Terra') {
+
+                              sh 'terraform apply -auto-approve' 
+                            }
+         }
+       }
+      }
 
    /*
     stage ('test') {
