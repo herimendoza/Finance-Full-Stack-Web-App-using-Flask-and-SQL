@@ -67,7 +67,7 @@ pipeline {
                               echo ${DB_URI}
                               echo "DB_URI=${DB_URI}" >> .env
                               cat .env
-                              env.sh
+                              cat env.sh
                               '''
                             }         
       
