@@ -386,37 +386,44 @@ def quote():
 
 @application.route("/register", methods=["GET", "POST"])
 def register():
-    if request.method == "GET":
-        return render_template("register.html")
-    else:
+
+    # Forget any user_id
+    session.clear()
+
+    if request.method == "POST":
+
         # Obtain username inputted
         username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
 
         # User error handling: stop empty username and password fields, stop usernames already taken, stop non-matching passwords
         if not username:
             return errorPage(title="No Data", info = "Please enter a username", file = "no-data.svg")
-
-        existing = Users.query.filter_by(username=username)
-        print("EXISTING USER: ", existing)
-        #("SELECT * FROM users WHERE username = :username", username=username)
-        if existing == username:
-            print("EXISTING USER ALREADY!: ", existing)
-            return errorPage(title="Forbidden", info = "Username already taken", file="animated-403.svg")
-        password = request.form.get("password")
-        if not password:
+        elif not password:
             return errorPage(title="No Data", info = "Please enter a password", file = "no-data.svg")
-        confirmation = request.form.get("confirmation")
         if password != confirmation:
             return errorPage(title = "Unauthorized", info = "Passwords do not match", file="animated-401.svg")
+        
         hashed = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
 
+        # query database to check if username already exists
+        existing = Users.query.filter_by(username=username).first()
+
+        print("EXISTING USER: ", existing)
+        
+        if existing != None: 
+            if existing.username == username:
+                print("USER ALREADY EXISTS!: ", existing)
+                return errorPage(title="Forbidden", info = "Username already taken", file="animated-403.svg")
+        
         # All users automatically recieve $10,000 to start with
         cash = 10000
 
         # Add and commit the data into database
         db.session.add(Users(username, hashed, cash))
         db.session.commit()
-        #("INSERT INTO users (username, hash) VALUES (:username, :hash)", username=username, hash=hashed)
+
 
         # Automatically sign in after creating account
         rows = Users.query.filter_by(username=request.form.get("username")).first()
@@ -424,6 +431,8 @@ def register():
 
         # Redirect user to home page
         return redirect("/home")
+    else:
+        return render_template("register.html")
 
 
 @application.route("/sell", methods=["GET", "POST"])
