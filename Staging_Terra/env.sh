@@ -1,0 +1,1 @@
+cat outputs.txt > .env
