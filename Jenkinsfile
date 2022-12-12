@@ -64,7 +64,7 @@ pipeline {
                               ENDPOINT=$(terraform output -raw mysql_host) >> output.txt
                               DATABASE=$(terraform output -raw mysql_database_name) >> output.txt
                               DB_URI="'mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}'"
-                              echo ${DB_URI} >> output.txt
+                              echo ${DB_URI}
                               echo "DB_URI=${DB_URI}" >> .env
                               '''
                             }         
@@ -85,6 +85,18 @@ pipeline {
          }
        }
       }
+
+  
+  stage('Destroy') {
+      steps {
+        withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
+        string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
+        dir('intTerraform') {
+        sh 'terraform destroy -auto-approve -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key"'
+      }
+    }
+  }
+  }
 
    /*
     stage ('test') {

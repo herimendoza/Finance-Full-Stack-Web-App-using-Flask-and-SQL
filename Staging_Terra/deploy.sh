@@ -14,5 +14,6 @@ sudo apt-get -y install mysql-server
 sudo apt-get -y install libmysqlclient-dev
 pip3 install flask-mysqldb
 pip install -r requirements.txt
+touch text.txt
 export FLASK_APP=application
 flask run --host=0.0.0.0
