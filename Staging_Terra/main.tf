@@ -28,8 +28,8 @@ data "template_cloudinit_config" "scripts" {
     }
   
     part{
-        content_type = "env_variables"
-        content = "${file(".env")}"
+        content_type = "text/x-shellscript"
+        content = "${file("env.sh")}"
     }
 }
 
