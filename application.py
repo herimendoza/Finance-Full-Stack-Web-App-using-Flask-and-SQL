@@ -412,9 +412,10 @@ def register():
 
         print("EXISTING USER: ", existing)
         
-        if existing.username == username:
-            print("USER ALREADY EXISTS!: ", existing)
-            return errorPage(title="Forbidden", info = "Username already taken", file="animated-403.svg")
+        if existing != None: 
+            if existing.username == username:
+                print("USER ALREADY EXISTS!: ", existing)
+                return errorPage(title="Forbidden", info = "Username already taken", file="animated-403.svg")
         
         # All users automatically recieve $10,000 to start with
         cash = 10000
