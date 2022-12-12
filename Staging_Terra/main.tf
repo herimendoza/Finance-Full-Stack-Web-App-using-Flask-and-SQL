@@ -43,7 +43,7 @@ resource "aws_instance" "Web_Server" {
   vpc_security_group_ids = [aws_security_group.web_ssh.id]
   user_data = "${data.template_cloudinit_config.scripts.rendered}"
   
-  key_name = "ssh1"
+  key_name = "KuraG5Key"
  
   tags = {
     "Name" : "Web_Server"
@@ -58,7 +58,7 @@ resource "aws_instance" "MySQL_Server" {
   subnet_id              = aws_subnet.subnet1.id
   vpc_security_group_ids = [aws_security_group.database_sg.id]
  
-  key_name = "ssh1"
+  key_name = "KuraG5Key"
  
   tags = {
     "Name" : "MySQL_Server"
