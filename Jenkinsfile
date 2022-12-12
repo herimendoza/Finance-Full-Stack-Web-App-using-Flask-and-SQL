@@ -66,6 +66,7 @@ pipeline {
                               DB_URI="'mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}'"
                               echo ${DB_URI}
                               echo "DB_URI=${DB_URI}" >> .env
+                              cat .env
                               '''
                             }         
       
