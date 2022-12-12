@@ -7,34 +7,34 @@ provider "aws" {
 
 # Cluster
 resource "aws_ecs_cluster" "aws-ecs-cluster" {
-  name = "urlapp-cluster"
+  name = "financeapp-cluster"
   tags = {
-    Name = "url-ecs"
+    Name = "finance-ecs"
   }
 }
 
 resource "aws_cloudwatch_log_group" "log-group" {
-  name = "/ecs/url-logs"
+  name = "/ecs/finance-logs"
 
   tags = {
-    Application = "url-app"
+    Application = "finance-app"
   }
 }
 
 # Task Definition
 
 resource "aws_ecs_task_definition" "aws-ecs-task" {
-  family = "url-task"
+  family = "finance-task"
 
   container_definitions = <<EOF
   [
   {
-      "name": "url-container",
+      "name": "finance-container",
       "image": "suborna/finance_app:v1",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/url-logs",
+          "awslogs-group": "/ecs/finance-logs",
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }
@@ -59,7 +59,7 @@ resource "aws_ecs_task_definition" "aws-ecs-task" {
 
 # ECS Service
 resource "aws_ecs_service" "aws-ecs-service" {
-  name                 = "url-ecs-service"
+  name                 = "finance-ecs-service"
   cluster              = aws_ecs_cluster.aws-ecs-cluster.id
   task_definition      = aws_ecs_task_definition.aws-ecs-task.arn
   launch_type          = "FARGATE"
@@ -77,8 +77,8 @@ resource "aws_ecs_service" "aws-ecs-service" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.url-app.arn
-    container_name   = "url-container"
+    target_group_arn = aws_lb_target_group.finance-app.arn
+    container_name   = "finance-container"
     container_port   = 5000
   }
 
