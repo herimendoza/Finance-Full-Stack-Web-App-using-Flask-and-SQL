@@ -16,9 +16,6 @@ pipeline {
 
     stage ('Staging init') {
       agent{label 'terrage'}
-      when {
-                branch 'brayan'
-            }
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
@@ -29,10 +26,7 @@ pipeline {
       }
   }  
      stage('Staging Plan') {
-      agent{label 'terrage'}
-      when {
-                branch 'brayan'
-            }     
+      agent{label 'terrage'}   
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
@@ -44,9 +38,6 @@ pipeline {
    }
      stage('Staging Apply') {
       agent{label 'terrage'}
-      when {
-                branch 'brayan'
-            }
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
@@ -60,9 +51,6 @@ pipeline {
 
      stage('Variables Add') {
        agent{label 'terrage'}
-       when {
-                 branch 'brayan'
-       }
        steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
                         string(credentialsId: 'API_KEY', variable: 'API_KEY'), 
@@ -87,9 +75,6 @@ pipeline {
    
      stage('Variables Apply') {
       agent{label 'terrage'}
-      when {
-                branch 'brayan'
-            }
       steps {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
