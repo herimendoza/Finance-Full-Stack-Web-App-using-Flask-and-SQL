@@ -66,6 +66,7 @@ pipeline {
                               DATABASE=$(terraform output -raw mysql_database_name) >> .env
                               DB_URI='mysql://$USER:$PASSWORD@$ENDPOINT/$DATABASE' >> .env
                               echo $DB_URI > file.txt
+                              python3 -m gunicorn -w 4 application:app -b 0.0.0.0 --daemon
                               '''
                             }         
       
