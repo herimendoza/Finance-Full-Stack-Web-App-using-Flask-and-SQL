@@ -65,7 +65,7 @@ pipeline {
                               DATABASE=$(terraform output -raw mysql_database_name) >> output.txt
                               DB_URI="'mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}'"
                               echo ${DB_URI} >> output.txt
-                              cat output.txt
+                              echo "DB_URI=${DB_URI}" >> .env
                               '''
                             }         
       
