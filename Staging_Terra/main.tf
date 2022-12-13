@@ -41,7 +41,7 @@ resource "aws_instance" "Web_Server" {
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.subnet1.id
   vpc_security_group_ids = [aws_security_group.web_ssh.id]
-  user_data = "${data.template_cloudinit_config.scripts.rendered}"
+  user_data = "${file("deploy.sh")}"
   
   key_name = "KuraG5Key"
  
