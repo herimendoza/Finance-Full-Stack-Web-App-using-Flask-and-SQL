@@ -59,14 +59,14 @@ pipeline {
 
                               sh '''#!/bin/bash
                               set -x
-                              echo "${API_KEY}" >> output.txt
+                              echo "${API_KEY}" >> outputs.txt
                               USER=$(terraform output -raw mysql_username)
                               PASSWORD=$(terraform output -raw mysql_password)
                               ENDPOINT=$(terraform output -raw mysql_host)
                               DATABASE=$(terraform output -raw mysql_database_name) 
-                              DB_URI="'mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}'"
-                              echo "${DB_URI}" >> output.txt
-                              cat output.txt
+                              DB_URI="mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}"
+                              echo "${DB_URI}" >> outputs.txt
+                              cat outputs.txt
                               '''
                             }         
       
