@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cat outputs.txt > .env
 sql_uri=$(cat outputs.txt | sed '2!d')
 echo $sql_uri
