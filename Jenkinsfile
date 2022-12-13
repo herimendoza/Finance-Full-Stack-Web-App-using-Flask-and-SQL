@@ -31,7 +31,7 @@ pipeline {
         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
                             dir('Staging_Terra') {
-                              sh 'terraform plan -out plan.tfplan -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key"' 
+                              sh 'terraform plan -out plan.tfplan -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key" -target=aws_vpc.finance-vpc -target=aws_instance.MySQL_Server -target=aws_subnet.subnet1 -target=aws_subnet.pri_subnet1 -target=aws_subnet.subnet2 -target=aws_subnet.pri_subnet2 -target=aws_internet_gateway.gw1 -target=aws_route_table.route_table1 -target=aws_route_table_association.route-subnet1 -target=aws_db_instance.financedb -target=aws_db_subnet_group.mysql_subnet_group' 
                             }
          }
     }
@@ -43,7 +43,7 @@ pipeline {
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
                             dir('Staging_Terra') {
 
-                              sh 'terraform apply plan.tfplan' 
+                              sh 'terraform apply plan.tfplaN -target=aws_vpc.finance-vpc -target=aws_instance.MySQL_Server -target=aws_subnet.subnet1 -target=aws_subnet.pri_subnet1 -target=aws_subnet.subnet2 -target=aws_subnet.pri_subnet2 -target=aws_internet_gateway.gw1-target=aws_route_table.route_table1 -target=aws_route_table_association.route-subnet1 -target=aws_db_instance.financedb -target=aws_db_subnet_group.mysql_subnet_group' 
                             }
          }
        }
@@ -81,8 +81,8 @@ pipeline {
                             dir('Staging_Terra') {
 
                               sh '''#!/bin/bash
-                                  terraform plan -refresh-only -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key" 
-                                  terraform apply -refresh-only -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key" 
+                                  terraform plan -target=aws_instance.Web_Server -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key" 
+                                  terraform apply -target=aws_instance.Web_Server -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key" 
                                   '''
                             }
          }
