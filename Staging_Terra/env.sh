@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cat outputs.txt >> /etc/environment
+cat outputs.txt > .env
 echo $DB_URI
