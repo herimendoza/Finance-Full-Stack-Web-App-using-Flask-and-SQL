@@ -66,6 +66,7 @@ pipeline {
                               DATABASE=$(terraform output -raw mysql_database_name) 
                               DB_URI="mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}"
                               echo "${DB_URI}" >> outputs.txt
+                              sed '2!d' < outputs.txt
                               cat outputs.txt
                               '''
                             }         
@@ -91,17 +92,17 @@ pipeline {
       }
 
   
-//   stage('Destroy') {
-//       agent{label 'terrage'}
-//       steps {
-//         withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
-//         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
-//         dir('Staging_Terra') {
-//         sh 'terraform destroy -auto-approve -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key"'
-//       }
-//     }
-//   }
-//   }
+  stage('Destroy') {
+      agent{label 'terrage'}
+      steps {
+        withCredentials([string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'),
+        string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
+        dir('Staging_Terra') {
+        sh 'terraform destroy -auto-approve -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key"'
+      }
+    }
+  }
+  }
 
    /*
     stage ('test') {
