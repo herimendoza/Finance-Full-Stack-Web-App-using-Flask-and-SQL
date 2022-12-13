@@ -10,7 +10,7 @@ RUN apt -y install python3-pip
 
 RUN python3 -m pip install --upgrade pip
 
-RUN git clone -b cypress-testing https://github.com/bmol5/Finance-Full-Stack-Web-App-using-Flask-and-SQL.git FinanceApp
+RUN git clone -b cypress-testing https://github.com/herimendoza/Finance-Full-Stack-Web-App-using-Flask-and-SQL.git FinanceApp
 
 WORKDIR /FinanceApp
 
