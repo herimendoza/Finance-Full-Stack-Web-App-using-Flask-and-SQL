@@ -43,7 +43,7 @@ pipeline {
                         string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')]) {
                             dir('Staging_Terra') {
 
-                              sh 'terraform apply plan.tfplaN -target=aws_vpc.finance-vpc -target=aws_instance.MySQL_Server -target=aws_subnet.subnet1 -target=aws_subnet.pri_subnet1 -target=aws_subnet.subnet2 -target=aws_subnet.pri_subnet2 -target=aws_internet_gateway.gw1-target=aws_route_table.route_table1 -target=aws_route_table_association.route-subnet1 -target=aws_db_instance.financedb -target=aws_db_subnet_group.mysql_subnet_group' 
+                              sh 'terraform apply plan.tf -target=aws_vpc.finance-vpc -target=aws_instance.MySQL_Server -target=aws_subnet.subnet1 -target=aws_subnet.pri_subnet1 -target=aws_subnet.subnet2 -target=aws_subnet.pri_subnet2 -target=aws_internet_gateway.gw1-target=aws_route_table.route_table1 -target=aws_route_table_association.route-subnet1 -target=aws_db_instance.financedb -target=aws_db_subnet_group.mysql_subnet_group' 
                             }
          }
        }
