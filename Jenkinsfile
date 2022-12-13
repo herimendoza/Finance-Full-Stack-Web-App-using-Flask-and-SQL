@@ -81,8 +81,8 @@ pipeline {
                             dir('Staging_Terra') {
 
                               sh '''#!/bin/bash
-                                  terraform plan -refresh-only -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key"' 
-                                  terraform apply -refresh-only -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key"' '
+                                  terraform plan -refresh-only -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key" 
+                                  terraform apply -refresh-only -var="aws_access_key=$aws_access_key" -var="aws_secret_key=$aws_secret_key" 
                                   '''
                             }
          }
