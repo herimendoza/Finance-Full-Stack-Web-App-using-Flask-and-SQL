@@ -58,14 +58,14 @@ pipeline {
                         dir('Staging_Terra') {
 
                               sh '''#!/bin/bash
-                              echo "API_KEY=${API_KEY}" >> .env
-                              USER=$(terraform output -raw mysql_username) >> output.txt
-                              PASSWORD=$(terraform output -raw mysql_password) >> output.txt
-                              ENDPOINT=$(terraform output -raw mysql_host) >> output.txt
-                              DATABASE=$(terraform output -raw mysql_database_name) >> output.txt
+                              echo "API_KEY=${API_KEY}" >> output.txt
+                              USER=$(terraform output -raw mysql_username)
+                              PASSWORD=$(terraform output -raw mysql_password)
+                              ENDPOINT=$(terraform output -raw mysql_host)
+                              DATABASE=$(terraform output -raw mysql_database_name) 
                               DB_URI="mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}"
                               echo ${DB_URI}
-                              echo "DB_URI=${DB_URI}" 
+                              echo "DB_URI=${DB_URI}" >> output.txt
                               '''
                             }         
       
