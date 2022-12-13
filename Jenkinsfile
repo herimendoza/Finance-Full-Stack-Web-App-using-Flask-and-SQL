@@ -64,7 +64,7 @@ pipeline {
                               PASSWORD=$(terraform output -raw mysql_password)
                               ENDPOINT=$(terraform output -raw mysql_host)
                               DATABASE=$(terraform output -raw mysql_database_name) 
-                              DB_URI="mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}"
+                              DB_URI="'mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}'"
                               echo "${DB_URI}" >> output.txt
                               cat output.txt
                               '''
