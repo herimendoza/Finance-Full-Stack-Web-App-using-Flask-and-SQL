@@ -67,7 +67,10 @@ resource "aws_instance" "MySQL_Server" {
     user_data = <<EOF
     #!/bin/sh
     sudo apt update
-    sudo apt install mysql-client-core-8.0   
+    sudo apt -y upgrade
+    sudo apt install mysql-client-core-8.0
+    sudo apt install mysql-server
+    sudo systemctl start mysql 
     EOF
     }
 
