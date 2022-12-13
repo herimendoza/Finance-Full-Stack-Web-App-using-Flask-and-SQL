@@ -14,6 +14,11 @@ sudo apt-get -y install mysql-server
 sudo apt-get -y install libmysqlclient-dev
 pip3 install flask-mysqldb
 pip install -r requirements.txt
-sed '50!d' < application.py 
+sed '50!d' < application.py
+cat outputs.txt > .env
+sql_uri=$(cat outputs.txt | sed '2!d')
+echo $sql_uri
+export DB_URI=$(echo $sql_uri)
+source .env
 export FLASK_APP=application
 flask run --host=0.0.0.0
