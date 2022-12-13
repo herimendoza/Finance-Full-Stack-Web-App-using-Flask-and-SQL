@@ -38,7 +38,7 @@ application.secret_key = 'TESTKEY123!'
 #server_session = Session(application)
 
 # Configure Flask to use local SQLite3 database with SQLAlchemy
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'finances.db')
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:test1234@database-financeapp.cwmugqlwb2kv.us-east-1.rds.amazonaws.com:3306/financeDB'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(application)
@@ -115,7 +115,7 @@ users_schema = UsersSchema
 portfolio_schema = PortfolioSchema(many=True)
 bought_schema = BoughtSchema(many=True)
 sold_schema = SoldSchema(many=True)
-db.create_all()
+# db.create_all()
 
 
 # Make sure API key is set
