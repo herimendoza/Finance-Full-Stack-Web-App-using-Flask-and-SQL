@@ -30,10 +30,10 @@
         new Chart(ctx, {
           type: 'line',
           data: {
-            labels: {{ data.date | safe }},
+            labels: {{ hdata.date | safe }},
             datasets: [{
               label: "Price",
-              data: {{ data.oldPrice | safe  }}
+              data: {{ hdata.oldPrice | safe }}
             //   borderWidth: 1
             }]
           },
