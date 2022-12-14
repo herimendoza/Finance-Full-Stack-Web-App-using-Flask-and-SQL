@@ -186,7 +186,7 @@ def index():
                 print("share_index:", share_index)
                 shares.append(share_index)
             # Calculate total value of stocks
-            calc = share_index * price_index
+            calc = round(share_index * price_index, 2)
             print("calc:", calc)
             total.append(calc)
         print("symbols:", symbols)

@@ -1,5 +1,5 @@
-resource "aws_lb_target_group" "url-app" {
-  name        = "url-app"
+resource "aws_lb_target_group" "finance-app" {
+  name        = "finance-app"
   port        = 5000
   protocol    = "HTTP"
   target_type = "ip"
@@ -11,11 +11,11 @@ resource "aws_lb_target_group" "url-app" {
     interval = 300
   }
 
-  depends_on = [aws_alb.url_app]
+  depends_on = [aws_alb.finance_app]
 }
 
-resource "aws_alb" "url_app" {
-  name               = "url-lb"
+resource "aws_alb" "finance_app" {
+  name               = "finance-lb"
   internal           = false
   load_balancer_type = "application"
 
@@ -31,17 +31,17 @@ resource "aws_alb" "url_app" {
   depends_on = [aws_internet_gateway.igw]
 }
 
-resource "aws_alb_listener" "url_app_listener" {
-  load_balancer_arn = aws_alb.url_app.arn
+resource "aws_alb_listener" "finance_app_listener" {
+  load_balancer_arn = aws_alb.finance_app.arn
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.url-app.arn
+    target_group_arn = aws_lb_target_group.finance-app.arn
   }
 }
 
-output "alb_url" {
-  value = "http://${aws_alb.url_app.dns_name}"
+output "alb_finance" {
+  value = "http://${aws_alb.finance_app.dns_name}"
 }
