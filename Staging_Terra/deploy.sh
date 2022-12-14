@@ -15,8 +15,8 @@ sudo apt-get -y install libmysqlclient-dev
 pip3 install flask-mysqldb
 pip install -r requirements.txt
 cd Staging_Terra/
-export API_KEY=$(sed '2!d' < outputs.txt)
-export DB_URI=$(sed '3!d' < outputs.txt)
+export API_KEY=$(sed '2!d' < ./outputs.txt)
+export DB_URI=$(sed '3!d' < ./outputs.txt)
 echo $DB_URI
 cd -
 sed '50!d' < application.py
