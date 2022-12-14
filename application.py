@@ -1,5 +1,5 @@
 import os
-import redis
+# import redis
 from datetime import datetime
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
@@ -8,7 +8,7 @@ from flask_marshmallow import Marshmallow
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import errorPage, login_required, lookup, usd
+from helpers import errorPage, login_required, lookup, historyData, usd
 
 # Configure application
 application = Flask(__name__)
@@ -16,7 +16,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Ensure templates are auto-reloaded
 application.config["TEMPLATES_AUTO_RELOAD"] = True
-
+application.config["DEBUG"] = False
 # Ensure responses aren't cached
 @application.after_request
 def after_request(response):
@@ -38,7 +38,7 @@ application.secret_key = 'TESTKEY123!'
 #server_session = Session(application)
 
 # Configure Flask to use local SQLite3 database with SQLAlchemy
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:test1234@database-financeapp.cwmugqlwb2kv.us-east-1.rds.amazonaws.com:3306/financeDB'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'finances.db')
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(application)
@@ -115,7 +115,7 @@ users_schema = UsersSchema
 portfolio_schema = PortfolioSchema(many=True)
 bought_schema = BoughtSchema(many=True)
 sold_schema = SoldSchema(many=True)
-# db.create_all()
+db.create_all()
 
 
 # Make sure API key is set
@@ -175,6 +175,8 @@ def index():
                 share_index = shares_list[i].current_shares
                 print("share_index:", share_index)
                 shares.append(share_index)
+               
+                
             # Calculate total value of stocks
             calc = round(share_index * price_index, 2)
             print("calc:", calc)
@@ -221,7 +223,7 @@ def buy():
         print("available:", available)
 
         # Use IEX API to get price of stock
-        price = lookup(symbol).get('price')
+        price = result.get('price')
         print("price:", price)
 
         # Calculate total cost
@@ -376,12 +378,13 @@ def quote():
     else:
         symbol = request.form.get("symbol")
         data = lookup(symbol) # f(x) to get stock quote
+        hdata = historyData(symbol)
         # User error handling: stop empty symbol and shares fields, stop invalid symbols, and negative share numbers
         if not symbol:
             return errorPage(title="No Data", info = "Please enter a stock symbol, i.e. AMZN", file = "no-data.svg")
         if data == None:
             return errorPage(title = "Bad Request", info = "Please enter a valid stock symbol", file="animated-400.svg")
-        return render_template("quoted.html", data = data)
+        return render_template("quoted.html", data = data, hdata = hdata)
 
 
 @application.route("/register", methods=["GET", "POST"])
