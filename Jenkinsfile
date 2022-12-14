@@ -65,9 +65,9 @@ pipeline {
                               ENDPOINT=$(terraform output -raw mysql_host)
                               DATABASE=$(terraform output -raw mysql_database_name) 
                               DB_URI="mysql://${USER}:${PASSWORD}@${ENDPOINT}/${DATABASE}"
-                              echo "${DB_URI}" >> outputs.txt
-                              sed '2!d' < outputs.txt
-                              sed '3!d' < outputs.txt
+                              echo "${DB_URI}" >> ./outputs.txt
+                              sed '2!d' < ./outputs.txt
+                              sed '3!d' < ./outputs.txt
                               cat outputs.txt
                               '''
                             }         
